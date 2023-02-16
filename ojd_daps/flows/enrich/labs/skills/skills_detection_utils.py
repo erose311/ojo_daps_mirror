@@ -24,13 +24,13 @@ from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Custom modules
-from .text_cleaning_utils import (
+from text_cleaning_utils import (
     clean_text,
     clean_chunks,
     clean_punctuation,
     split_string,
 )
-from .helper_utils import (
+from helper_utils import (
     save_to_s3,
     load_from_s3,
     save_json_to_s3,
@@ -195,7 +195,7 @@ def surface_form_dataframe(surface_form_dict):
         (pandas.DataFrame): Dataframe with columns for entity identifier, surface
             forms and surface form types.
     """
-    surface_form_df = pd.DataFrame()
+    surface_form_df = DataFrame()
     for key in surface_form_dict.keys():
         df_temp = pd.DataFrame(
             surface_form_dict[key], columns=["entity", "surface_form"]
@@ -609,7 +609,7 @@ def load_model(model_name="", from_local=False, local_path=SKILLS_LAB_DIR / "mod
         with BytesIO(data) as bio:
             model = pd.read_pickle(bio)
     else:
-        model = pickle.load(open(f"{local_path}/{filename}", "rb"))
+        model = pd.read_pickle(open(f"{local_path}/{filename}", "rb"))
     # Ensure that entities are integers
     model["surface_forms"].entity = model["surface_forms"].entity.astype(int)
     return model
